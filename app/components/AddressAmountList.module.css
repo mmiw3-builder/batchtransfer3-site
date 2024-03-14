@@ -1,0 +1,16 @@
+/* .addressPage {
+  background-color:darkgrey;
+} */
+.addressPage > div {
+  margin: 8px 0;
+
+}
+
+/* .sameAmountItem{
+  margin-left: 5px;
+} */
+
+.sameAmountItem > * {
+  margin-right: 5px;
+
+}
