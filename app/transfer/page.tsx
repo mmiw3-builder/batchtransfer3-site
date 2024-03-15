@@ -54,7 +54,7 @@ export default function Page() {
         </NavbarContent>
       </Navbar>
       <div className="flex w-full flex-col" >
-        <Tabs aria-label="Dynamic tabs" items={tabs}  style={{width: '100%', marginLeft: '200px', textAlign: 'center', marginTop: '15px'}}>
+        <Tabs aria-label="Dynamic tabs" items={tabs}  style={{paddingLeft: '40%', textAlign: 'center', marginTop: '15px'}}>
           {(item) => (
             <Tab key={item.id} title={item.label}>
               <Card>

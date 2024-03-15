@@ -1,6 +1,7 @@
-/* .addressPage {
-  background-color:darkgrey;
-} */
+.addressPage {
+  width: 100%;
+  
+}
 .addressPage > div {
   margin: 8px 0;
 
@@ -13,4 +14,8 @@
 .sameAmountItem > * {
   margin-right: 5px;
 
+}
+
+.listFlex > *{
+  margin-right: 10px;
 }

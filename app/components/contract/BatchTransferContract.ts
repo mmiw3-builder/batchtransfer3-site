@@ -53,16 +53,18 @@ export default class BatchTransferContract{
   }
 
   async  batchTransferEtherWithSameAmount(recipients: string[], amount: bigint){
-    console.log(`batchTransferEtherWithSameAmount0`, recipients, amount)
+    // console.log(`batchTransferEtherWithSameAmount0`, recipients, amount)
     if(recipients.length ===0){
       throw new Error("列表不能为空")
     }
+
     let totalAmount: bigint = amount * BigInt(recipients.length)
+
     this.writeContract({
       abi: batchTransferAbi,
       address: this.contractAddress,
       functionName: 'batchTransferEtherWithSameAmount',
-      args:[ recipients,  totalAmount],
+      args:[ recipients,  amount],
       value: totalAmount,
     })
   }
