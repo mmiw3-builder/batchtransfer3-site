@@ -1,10 +1,11 @@
 
 import React, {  useEffect, useState } from 'react'
 import AddressAmountList from './AddressAmountList'
-import { useAccount, useBalance, useChainId, useWriteContract } from 'wagmi'
+import { useAccount, useBalance, useChainId, useChains, useConfig, useTransactionReceipt,  useWriteContract } from 'wagmi'
 import BatchTransferContract from './contract/BatchTransferContract'
 import { Button } from '@nextui-org/react'
-import { Flex, message } from 'antd'
+import { Flex, message, notification } from 'antd'
+
 
 export default function TransferEther() {
   const chainId = useChainId()
@@ -15,18 +16,43 @@ export default function TransferEther() {
 
   const [recipients, setRecipients] = useState<string[]>([])
   const [amount, setAmount] = useState<bigint[]| bigint>([])
+  const [txHash, setTxHash] = useState<`0x${string}`>();
 
-  useEffect( () =>{
+  const txResult = useTransactionReceipt({hash: txHash})
+
+  const { chain } = useAccount()
+
+  useEffect(() =>{
     if(result.isError){
       message.error(result.error?.cause?.shortMessage)
     }
   }, [result.isError])
 
-  const contract: BatchTransferContract = new BatchTransferContract(chainId, writeContract) 
 
-  function donate(){
-    contract.donate(1n)
-  }
+  useEffect(() =>{
+    if(result.data){
+      setTxHash(result.data)
+    }
+  }, [result.data])
+
+  useEffect(() =>{
+      if(txResult.isPending && txHash){
+        notification.info({
+          message: 'tx pending...',
+          description: <div>transaction: <a target="_blank" href={chain?.blockExplorers?.default.url + '/evm/tx/' + txHash}>{txHash}</a> is pending...</div> ,
+        })
+        return
+      }
+      if(txResult.isSuccess){
+        notification.success({
+          message: 'tx confirmed',
+          description: <div>transaction: <a target="_blank" href={chain?.blockExplorers?.default.url + '/evm/tx/' + txHash}>{txHash}</a> has been confirmed</div> ,
+        })
+        return
+      }
+  }, [txResult.isPending, txResult.isSuccess, txHash])
+
+  const contract: BatchTransferContract = new BatchTransferContract(chainId, writeContract) 
 
   function onAddressChange(address:string[], amount: bigint[] | bigint){
     console.log(`TransferEther, address:`, address, '\namount:', amount,)
@@ -53,11 +79,19 @@ export default function TransferEther() {
     }
   }
 
+  (BigInt.prototype as any).toJSON = function () {
+    return this.toString();
+  };
+
   return (
     <>
       <Flex vertical={true} align='center'>
         <div style={{width: '85%'}}>
           <AddressAmountList onAddressChange={onAddressChange} />
+        </div>
+        <div style={{width: '100%', overflow: 'wrap'}}>
+          {/* {JSON.stringify(txResult)} */}
+          
         </div>
         <Button 
           style={{width: '100px'}}
@@ -69,3 +103,4 @@ export default function TransferEther() {
     </>
   )
 }
+

@@ -1,0 +1,19 @@
+.erc20{
+  width: 85%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.erc20 > * {
+  margin-right: 8px;
+}
+
+.erc20 > .contract{
+  width: 400px;
+}
+
+.transferPage > *{
+  /* margin-bottom: 10px; */
+}

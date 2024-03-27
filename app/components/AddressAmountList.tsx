@@ -56,6 +56,7 @@ export default function AddressAmountList(
   const [addressRows, setAddressRows] = useState<AddressAmountRow[]>([])
   const [sameAmount, setSameAmount] = useState<bigint>(0n)
   const [sameAmountSwitch, setSameAmountSwitch] = useState<boolean>()
+  const [totalAmount, setTotalAmount] = useState<bigint>(0n)
 
   useEffect(() => {
     const rows = addressBlock.replaceAll(/(\t|\x20)*/g, '')
@@ -75,12 +76,18 @@ export default function AddressAmountList(
     const _addressList = rows.map(e => e.address);
     const _amountList = rows.map(e => e.amount);
 
+    setTotalAmount(0n)
+
     if(!getHasInvalidRows(rows)){
       if(!sameAmountSwitch){
+        const totalAmount = _amountList.reduce((a,b) => a+b,0n)
+        setTotalAmount(totalAmount)
         onAddressChange(_addressList, _amountList)
         return
       }
       if(sameAmountSwitch && sameAmount > 0n){
+        const totalAmount = sameAmount * BigInt(_addressList.length)
+        setTotalAmount(totalAmount)
         onAddressChange(_addressList, sameAmount)
         return
       }
@@ -137,14 +144,14 @@ export default function AddressAmountList(
         <Flex vertical={false} className={style.listFlex}>
           <div style={{width: '45%'}}>
             <span>批量转账地址列表:</span>
-            <Textarea minRows={20} 
-                      maxRows={20} 
+            <Textarea minRows={18} 
+                      maxRows={18} 
                       onValueChange={onAddressListChange}
             ></Textarea>
           </div>
           <div style={{width: '45%'}}>
-            <span>批量转账预览:</span>
-            <div style={{whiteSpace: "pre-line", maxHeight: '410px', overflowY: 'scroll', scrollbarWidth: 'none' }}>
+            <span>批量转账预览[合计 {`=> ${ ethers.utils.formatEther(totalAmount)}`} ]:</span>
+            <div style={{whiteSpace: "pre-line", maxHeight: '380px', overflowY: 'scroll', scrollbarWidth: 'none' }}>
             {
               addressRows.map((e,i) => {
                 const address = e.address
