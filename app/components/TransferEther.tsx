@@ -21,6 +21,7 @@ export default function TransferEther() {
   const txResult = useTransactionReceipt({hash: txHash})
 
   const { chain } = useAccount()
+  const contract: BatchTransferContract = new BatchTransferContract(chainId, writeContract) 
 
   useEffect(() =>{
     if(result.isError){
@@ -38,23 +39,23 @@ export default function TransferEther() {
   useEffect(() =>{
       if(txResult.isPending && txHash){
         notification.info({
-          message: 'tx pending...',
-          description: <div>transaction: <a target="_blank" href={chain?.blockExplorers?.default.url + '/evm/tx/' + txHash}>{txHash}</a> is pending...</div> ,
+          message: '交易正在执行...',
+          description: <div>交易Hash: <a target="_blank" href={chain?.blockExplorers?.default.url + '/evm/tx/' + txHash}>{txHash}</a></div> ,
         })
         return
       }
       if(txResult.isSuccess){
         notification.success({
-          message: 'tx confirmed',
-          description: <div>transaction: <a target="_blank" href={chain?.blockExplorers?.default.url + '/evm/tx/' + txHash}>{txHash}</a> has been confirmed</div> ,
+          message: '交易已确认',
+          description: <div>交易Hash: <a target="_blank" href={chain?.blockExplorers?.default.url + '/evm/tx/' + txHash}>{txHash}</a></div> ,
         })
         return
       }
   }, [txResult.isPending, txResult.isSuccess, txHash])
 
-  const contract: BatchTransferContract = new BatchTransferContract(chainId, writeContract) 
+  
 
-  function onAddressChange(address:string[], amount: bigint[] | bigint){
+  function onAddressChange(address:string[], amount: bigint[] | bigint, totalAmount: bigint){
     console.log(`TransferEther, address:`, address, '\namount:', amount,)
     setRecipients(address)
     setAmount(amount)

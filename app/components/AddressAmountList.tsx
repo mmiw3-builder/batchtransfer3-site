@@ -49,7 +49,7 @@ class AddressAmountRow{
 
 export default function AddressAmountList(
     {onAddressChange: onAddressChange} : 
-    {onAddressChange: (addressList: string[], amount: bigint[] | bigint) => void}
+    {onAddressChange: (addressList: string[], amount: bigint[] | bigint, totalAmount: bigint) => void}
     ) {
 
   const [addressBlock, setAddressBlock] = useState("")
@@ -82,18 +82,18 @@ export default function AddressAmountList(
       if(!sameAmountSwitch){
         const totalAmount = _amountList.reduce((a,b) => a+b,0n)
         setTotalAmount(totalAmount)
-        onAddressChange(_addressList, _amountList)
+        onAddressChange(_addressList, _amountList, totalAmount)
         return
       }
       if(sameAmountSwitch && sameAmount > 0n){
         const totalAmount = sameAmount * BigInt(_addressList.length)
         setTotalAmount(totalAmount)
-        onAddressChange(_addressList, sameAmount)
+        onAddressChange(_addressList, sameAmount, totalAmount)
         return
       }
-      onAddressChange([], 0n)
+      onAddressChange([], 0n, 0n)
     }
-    onAddressChange([], 0n)
+    onAddressChange([], 0n, 0n)
 
   }, [addressBlock, sameAmount, sameAmountSwitch])
 

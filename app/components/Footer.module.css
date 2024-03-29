@@ -1,0 +1,8 @@
+.footer{
+  height: 5vh;
+  padding: 0 30px;
+}
+
+.flex > *{
+  margin-left: 10px;
+}

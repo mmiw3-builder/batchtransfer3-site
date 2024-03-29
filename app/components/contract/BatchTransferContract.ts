@@ -89,7 +89,6 @@ export default class BatchTransferContract{
       address: this.contractAddress,
       functionName: 'batchTransferToken',
       args:[ erc20, recipients,  amounts],
-      value: totalAmount,
     })
   }
 
@@ -97,13 +96,12 @@ export default class BatchTransferContract{
     if(recipients.length ===0){
       throw new Error("列表不能为空")
     }
-    let totalAmount: bigint = amount * BigInt(recipients.length)
+    debugger
     this.writeContract({
       abi: batchTransferAbi,
       address: this.contractAddress,
       functionName: 'batchTransferTokenWithSameAmount',
-      args:[ erc20, recipients,  totalAmount],
-      value: totalAmount,
+      args:[ erc20, recipients,  amount],
     })
   }
 }

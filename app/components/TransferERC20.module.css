@@ -8,6 +8,7 @@
 
 .erc20 > * {
   margin-right: 8px;
+  margin-bottom: 10px;
 }
 
 .erc20 > .contract{
