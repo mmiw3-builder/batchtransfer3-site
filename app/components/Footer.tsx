@@ -24,7 +24,6 @@ export default function Footer() {
   return (
     <div className={css.footer}>
       <Flex className={css.flex} vertical={false} justify='end' align="center">
-        {/* <div>{chain?.blockExplorers?.default.url}</div> */}
         <a onClick={onScanClick} target='_blank'>
           <Image
             src="/etherscan-logo-circle.svg"
@@ -34,7 +33,7 @@ export default function Footer() {
             priority
           />
         </a>
-        <a href='https://www.github.com/azleal' target='_blank'>
+        <a href='https://github.com/mmiw3-builder/batchtransfer3-site' target='_blank'>
           <Image
             src="/github-mark.svg"
             alt="Vercel Logo"

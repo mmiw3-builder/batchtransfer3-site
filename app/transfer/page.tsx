@@ -8,6 +8,7 @@ import { useAccount, useBalance, useChains } from 'wagmi';
 import Image from "next/image";
 import Donate from '../components/Donate';
 import Footer from '../components/Footer';
+// import 
 
 
 
@@ -67,7 +68,7 @@ export default function Page() {
           </NavbarContent>
         </Navbar>
         <div className="flex w-full flex-col" >
-          <Tabs aria-label="Dynamic tabs" items={tabs}  defaultSelectedKey="donate" style={{paddingLeft: '40%', textAlign: 'center', marginTop: '15px'}}>
+          <Tabs aria-label="Dynamic tabs" items={tabs}  defaultSelectedKey="transferEth" style={{paddingLeft: '40%', textAlign: 'center', marginTop: '15px'}}>
             {(item) => (
               <Tab key={item.id} title={item.label}>
                 <Card>
