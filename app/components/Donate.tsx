@@ -47,8 +47,11 @@ export default function Donate() {
     setDonation(donation)
   };
 
-  function onCustomizeDonationChange(value: number){
+  function onCustomizeDonationChange(value: number | null){
     console.log(`onCustomizeDonationChange: ${value}`)
+    if(!value){
+      return
+    }
     setCustomizeDonation(value)
     setDonation(value)
   }

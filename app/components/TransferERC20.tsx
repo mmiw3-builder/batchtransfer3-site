@@ -1,7 +1,7 @@
 
 import React, {  useEffect, useState } from 'react'
 import AddressAmountList from './AddressAmountList'
-import { useAccount, useBalance, useChainId, useReadContract, useReadContracts, useWriteContract } from 'wagmi'
+import { BaseError, BaseErrorType, useAccount, useBalance, useChainId, useReadContract, useReadContracts, useWriteContract } from 'wagmi'
 import BatchTransferContract from './contract/BatchTransferContract'
 import { Button } from '@nextui-org/react'
 import { Flex, Input, message } from 'antd'
@@ -32,7 +32,7 @@ export default function TransferErc20() {
 
   useEffect( () =>{
     if(result.isError){
-      message.error(result.error?.cause?.shortMessage)
+      message.error((result.error?.cause as BaseError).shortMessage)
     }
   }, [result.isError])
 
@@ -49,15 +49,6 @@ export default function TransferErc20() {
     setAmount(amount)
     setTotalAmount(totalAmount)
   }
-
-  // async function checkAllowance(){
-  //   const result = useReadContract({
-  //     abi: ERC20Abi,
-  //     address: '0x6b175474e89094c44da98b954eedeac495271d0f',
-  //     functionName: 'totalSupply',
-  //   })
-  // }
-
 
   function batchTransferErc20(){
     if(recipients.length <= 0){
@@ -117,17 +108,17 @@ export default function TransferErc20() {
         
         <div>
           <Button 
-            style={{width: '100px', visibility: readErc20AllowanceResult.data >= totalAmount ? 'hidden' : 'visible'}}
+            style={{width: '100px', visibility: readErc20AllowanceResult.data as bigint >= totalAmount ? 'hidden' : 'visible'}}
             color="primary"
             onClick={approveErc20} 
             isDisabled={recipients.length === 0} 
             isLoading={result.isPending}>授权额度</Button>
           <Button 
-            style={{width: '100px', visibility: readErc20AllowanceResult.data >= totalAmount ? 'visible' : 'hidden'}}
+            style={{width: '100px', visibility: readErc20AllowanceResult.data as bigint >= totalAmount ? 'visible' : 'hidden'}}
             color="primary"
             onClick={batchTransferErc20} 
-            isDisabled={recipients.length === 0 || readErc20BalanceResult.data < totalAmount} 
-            isLoading={result.isPending}>{readErc20BalanceResult.data < totalAmount ? '余额不足': '批量转账'}</Button>
+            isDisabled={recipients.length === 0 || readErc20BalanceResult.data as bigint < totalAmount} 
+            isLoading={result.isPending}>{readErc20BalanceResult.data as bigint < totalAmount ? '余额不足': '批量转账'}</Button>
           </div>
       </Flex>
     </>

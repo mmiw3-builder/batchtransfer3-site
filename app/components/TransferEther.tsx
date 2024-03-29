@@ -1,7 +1,7 @@
 
 import React, {  useEffect, useState } from 'react'
 import AddressAmountList from './AddressAmountList'
-import { useAccount, useBalance, useChainId, useChains, useConfig, useTransactionReceipt,  useWriteContract } from 'wagmi'
+import { BaseError, useAccount, useBalance, useChainId, useChains, useConfig, useTransactionReceipt,  useWriteContract } from 'wagmi'
 import BatchTransferContract from './contract/BatchTransferContract'
 import { Button } from '@nextui-org/react'
 import { Flex, message, notification } from 'antd'
@@ -25,7 +25,7 @@ export default function TransferEther() {
 
   useEffect(() =>{
     if(result.isError){
-      message.error(result.error?.cause?.shortMessage)
+      message.error((result.error?.cause as BaseError).shortMessage)
     }
   }, [result.isError])
 
