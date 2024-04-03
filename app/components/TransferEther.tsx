@@ -98,7 +98,7 @@ export default function TransferEther() {
           style={{width: '100px'}}
           color="primary"
           onClick={batchTransferEther} 
-          isDisabled={recipients.length === 0} 
+          isDisabled={recipients.length === 0 || !account.isConnected} 
           isLoading={result.isPending}>批量转账</Button>
       </Flex>
     </>

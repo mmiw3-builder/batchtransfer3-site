@@ -117,7 +117,7 @@ export default function TransferErc20() {
             style={{width: '100px', visibility: readErc20AllowanceResult.data as bigint >= totalAmount ? 'visible' : 'hidden'}}
             color="primary"
             onClick={batchTransferErc20} 
-            isDisabled={recipients.length === 0 || readErc20BalanceResult.data as bigint < totalAmount} 
+            isDisabled={recipients.length === 0 || readErc20BalanceResult.data as bigint < totalAmount || !account.isConnected} 
             isLoading={result.isPending}>{readErc20BalanceResult.data as bigint < totalAmount ? '余额不足': '批量转账'}</Button>
           </div>
       </Flex>

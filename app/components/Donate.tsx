@@ -66,12 +66,13 @@ export default function Donate() {
               {options.map(e => (<Radio key={e.key} value={e.key}>{e.value} ${symbol}</Radio>))}
               <Radio value={customizeDonationOption} >
                 <InputNumber 
-                    addonAfter={"$" + symbol}
+                    addonAfter={"$" + (symbol ? symbol : '')}
                     disabled={donationChoice !== customizeDonationOption}
                     style={{ width: 150, marginLeft: 10 }}
                     defaultValue={customizeDonation}
                     onChange={onCustomizeDonationChange} 
-                    min={0.1}
+                    min={0.5}
+                    step={0.5}
                   />
               </Radio>
             </Space>

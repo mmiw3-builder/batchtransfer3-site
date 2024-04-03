@@ -8,7 +8,8 @@ import BatchTransferContract from './contract/BatchTransferContract';
 
 export default function Footer() {
   
-  const { chain } = useAccount()
+  const account = useAccount()
+  const {chain} = account
   const chainId = useChainId()
   const {writeContract, ...result} = useWriteContract()
   const contract: BatchTransferContract = new BatchTransferContract(chainId, writeContract) 
@@ -25,13 +26,13 @@ export default function Footer() {
     <div className={css.footer}>
       <Flex className={css.flex} vertical={false} justify='end' align="center">
         <a onClick={onScanClick} target='_blank'>
-          <Image
+        {account.isConnected ? (<Image
             src="/etherscan-logo-circle.svg"
             alt={chain?.blockExplorers?.default.url || ''}
             width={28}
             height={28}
             priority
-          />
+          />) : ''}
         </a>
         <a href='https://github.com/mmiw3-builder/batchtransfer3-site' target='_blank'>
           <Image
